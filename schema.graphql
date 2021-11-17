@@ -15,7 +15,35 @@ type BNFT @entity {
   lifetimeBurns: BigInt! # default: 0
   lifetimeFlashLoans: BigInt! # default: 0
 
+  mintHistory: [Mint!]! @derivedFrom(field: "bnft")
+  burnHistory: [Burn!]! @derivedFrom(field: "bnft")
   flashLoanHistory: [FlashLoan!]! @derivedFrom(field: "bnft")
+}
+
+type Mint @entity {
+  """
+  tx hash
+  """ # TODO: replace with blockNumber/timestamp + blockPosition
+  id: ID!
+  bnft: BNFT!
+  nftAsset: Bytes!
+  nftTokenId: BigInt!
+  user: Bytes!
+  owner: Bytes!
+  timestamp: Int!
+}
+
+type Burn @entity {
+  """
+  tx hash
+  """ # TODO: replace with blockNumber/timestamp + blockPosition
+  id: ID!
+  bnft: BNFT!
+  nftAsset: Bytes!
+  nftTokenId: BigInt!
+  user: Bytes!
+  owner: Bytes!
+  timestamp: Int!
 }
 
 type FlashLoan @entity {
