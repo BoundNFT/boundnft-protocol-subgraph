@@ -1,0 +1,68 @@
+specVersion: 0.0.1
+description: Bend Protocol subgraph
+repository: https://github.com/qlcchain/bnft-protocol-subgraph
+schema:
+  file: ./schema.graphql
+  # --------------------------------------
+  #           Data Source for the Main Contract
+  # --------------------------------------
+dataSources:
+  # --------------------------------------
+  #           BNFTRegistry
+  # --------------------------------------
+  - kind: ethereum/contract
+    name: BNFTRegistry
+    network: {{network}}
+    source:
+      address: '{{BNFTRegistryAddress}}'
+      abi: BNFTRegistry
+      startBlock: {{BNFTRegistryStartBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - BNFT
+      abis:
+        - name: BNFTRegistry
+          file: ./abis/BNFTRegistry.json
+      eventHandlers:
+        - event: BNFTCreated(indexed address,address,address,uint256)
+          handler: handleBNFTCreated
+        - event: BNFTUpgraded(indexed address,address,address,uint256)
+          handler: handleBNFTUpgraded
+      file: src/mapping/bnft-registry.ts
+  # --------------------------------------
+  #       Dynamically Created Contracts
+  # --------------------------------------
+templates:
+  # --------------------------------------
+  #      BNFT
+  # --------------------------------------
+  - kind: ethereum/contract
+    name: BNFT
+    network: {{network}}
+    source:
+      abi: BNFT
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.1
+      language: wasm/assemblyscript
+      entities:
+        - BNFT
+        - UserReserve
+      abis:
+        - name: BNFT
+          file: ./abis/BNFT.json
+        - name: IERC721Metadata
+          file: ./constant-abis/IERC721Metadata.json
+      eventHandlers:
+        - event: Burn(indexed address,indexed address,uint256,indexed address)
+          handler: handleBurn
+        - event: Mint(indexed address,indexed address,uint256,indexed address)
+          handler: handleMint
+        - event: FlashLoan(indexed address,indexed address,indexed address,uint256)
+          handler: handleFlashLoan
+        - event: Initialized(indexed address,bytes)
+          handler: handleInitialized
+      file: src/mapping/bnft.ts
