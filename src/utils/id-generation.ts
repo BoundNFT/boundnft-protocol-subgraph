@@ -24,3 +24,7 @@ export function getBNftId(bNftAddress: Address): string {
 export function getNftAssetId(nftAsset: Address): string {
   return nftAsset.toHexString();
 }
+
+export function getTokenOwnerId(nftAsset: Address, tokenId: BigInt): string {
+  return nftAsset.toHexString() + tokenId.toString();
+}
