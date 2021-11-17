@@ -1,0 +1,32 @@
+# --------------------------------------
+# BNFT Entities
+# --------------------------------------
+type BNFT @entity {
+  """
+  BNFT address
+  """
+  id: ID!
+  symbol: String!
+  name: String!
+  nftAsset: Bytes!
+  tokenContractImpl: Bytes!
+
+  lifetimeMints: BigInt! # default: 0
+  lifetimeBurns: BigInt! # default: 0
+  lifetimeFlashLoans: BigInt! # default: 0
+
+  flashLoanHistory: [FlashLoan!]! @derivedFrom(field: "bnft")
+}
+
+type FlashLoan @entity {
+  """
+  tx hash
+  """ # TODO: replace with blockNumber/timestamp + blockPosition
+  id: ID!
+  bnft: BNFT!
+  nftAsset: Bytes!
+  nftTokenId: BigInt!
+  target: Bytes!
+  initiator: Bytes!
+  timestamp: Int!
+}

@@ -1,0 +1,5 @@
+{
+  "network": "hardhatevm",
+  "BNFTRegistryAddress": "0x0000000000000000000000000000000000000000",
+  "BNFTRegistryStartBlock": 0
+}
