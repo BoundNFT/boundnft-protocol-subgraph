@@ -3,11 +3,8 @@ import { Address } from "@graphprotocol/graph-ts/index";
 
 export enum EventTypeRef {
   NoType,
-  Deposit,
-  Borrow,
-  Redeem,
-  Repay,
-  Liquidate,
+  Mint,
+  Burn,
   FlashLoan,
 }
 
@@ -20,42 +17,10 @@ export function getHistoryEntityId(event: ethereum.Event): string {
   return event.transaction.hash.toHexString() + ":" + event.logIndex.toString();
 }
 
-export function getReserveId(underlyingAsset: Address, poolId: string): string {
-  return underlyingAsset.toHexString() + poolId;
-}
-
-export function getNftId(underlyingAsset: Address, poolId: string): string {
-  return underlyingAsset.toHexString() + poolId;
-}
-
-export function getLoanId(loanId: BigInt, poolId: string): string {
-  return loanId.toString() + poolId;
-}
-
-export function getUserReserveId(userAddress: Address, underlyingAssetAddress: Address, poolId: string): string {
-  return userAddress.toHexString() + underlyingAssetAddress.toHexString() + poolId;
-}
-
-export function getUserNftId(userAddress: Address, underlyingAssetAddress: Address, poolId: string): string {
-  return userAddress.toHexString() + underlyingAssetAddress.toHexString() + poolId;
-}
-
-export function getBTokenId(bTokenAddress: Address): string {
-  return bTokenAddress.toHexString();
-}
-
-export function getDebtTokenId(dTokenAddress: Address): string {
-  return dTokenAddress.toHexString();
-}
-
 export function getBNftId(bNftAddress: Address): string {
   return bNftAddress.toHexString();
 }
 
 export function getNftAssetId(nftAsset: Address): string {
   return nftAsset.toHexString();
-}
-
-export function getNftTokenItemId(nftAsset: Address, tokenId: BigInt): string {
-  return nftAsset.toHexString() + tokenId.toString();
 }
