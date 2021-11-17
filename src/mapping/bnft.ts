@@ -1,9 +1,10 @@
 import { Initialized, Mint, Burn, FlashLoan } from "../../generated/templates/BNFT/BNFT";
 import { Mint as MintAction, Burn as BurnAction, FlashLoan as FlashLoanAction } from "../../generated/schema";
-import { getOrInitBNFT } from "../helpers/initializers";
+import { getOrInitBNFT, getOrInitTokenOwner } from "../helpers/initializers";
 import { zeroAddress, zeroBI } from "../utils/converters";
 import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts";
 import { EventTypeRef, getHistoryId } from "../utils/id-generation";
+import { IERC721Metadata } from "../../generated/templates/BNFT/IERC721Metadata";
 
 export function handleInitialized(event: Initialized): void {}
 
@@ -12,6 +13,12 @@ export function handleMint(event: Mint): void {
 
   bnft.lifetimeMints = bnft.lifetimeFlashLoans.plus(new BigInt(1));
   bnft.save();
+
+  let ERC721Contract = IERC721Metadata.bind(event.address);
+  let tokenItem = getOrInitTokenOwner(event.address, event.params.nftTokenId);
+  tokenItem.owner = event.params.owner;
+  tokenItem.tokenUri = ERC721Contract.tokenURI(event.params.nftTokenId);
+  tokenItem.save();
 
   let mintHistory = new MintAction(getHistoryId(event, EventTypeRef.Mint));
   mintHistory.bnft = bnft.id;
@@ -28,6 +35,11 @@ export function handleBurn(event: Burn): void {
 
   bnft.lifetimeBurns = bnft.lifetimeFlashLoans.plus(new BigInt(1));
   bnft.save();
+
+  let ERC721Contract = IERC721Metadata.bind(event.address);
+  let tokenItem = getOrInitTokenOwner(event.address, event.params.nftTokenId);
+  tokenItem.owner = zeroAddress();
+  tokenItem.save();
 
   let burnHistory = new BurnAction(getHistoryId(event, EventTypeRef.Burn));
   burnHistory.bnft = bnft.id;

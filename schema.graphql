@@ -15,9 +15,23 @@ type BNFT @entity {
   lifetimeBurns: BigInt! # default: 0
   lifetimeFlashLoans: BigInt! # default: 0
 
+  tokenOwners: [TokenOwner!]! @derivedFrom(field: "bnft")
+
   mintHistory: [Mint!]! @derivedFrom(field: "bnft")
   burnHistory: [Burn!]! @derivedFrom(field: "bnft")
   flashLoanHistory: [FlashLoan!]! @derivedFrom(field: "bnft")
+}
+
+type TokenOwner @entity {
+  """
+  nft asset address + nft token id
+  """
+  id: ID!
+  bnft: BNFT!
+  nftAsset: Bytes!
+  nftTokenId: BigInt!
+  owner: Bytes
+  tokenUri: String
 }
 
 type Mint @entity {
