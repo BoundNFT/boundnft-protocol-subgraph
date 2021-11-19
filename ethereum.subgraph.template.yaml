@@ -26,6 +26,8 @@ dataSources:
       abis:
         - name: BNFTRegistry
           file: ./abis/BNFTRegistry.json
+        - name: IERC721Metadata
+          file: ./constant-abis/IERC721Metadata.json
       eventHandlers:
         - event: BNFTCreated(indexed address,address,address,uint256)
           handler: handleBNFTCreated

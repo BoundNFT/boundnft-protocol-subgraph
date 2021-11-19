@@ -1,7 +1,7 @@
 import { BNFTCreated, BNFTUpgraded } from "../../generated/BNFTRegistry/BNFTRegistry";
 
 import { BNFT as BNFTContract } from "../../generated/templates";
-import { IERC721Metadata } from "../../generated/templates/BNFT/IERC721Metadata";
+import { IERC721Metadata } from "../../generated/BNFTRegistry/IERC721Metadata";
 import { getOrInitBNFT } from "../helpers/initializers";
 
 export function handleBNFTCreated(event: BNFTCreated): void {
