@@ -9,7 +9,12 @@ export function getOrInitBNFT(bNftAddress: Address): BNFT {
   if (!bnft) {
     bnft = new BNFT(bnftId);
     bnft.nftAsset = new Bytes(1);
+    bnft.symbol = "";
+    bnft.name = "";
     bnft.tokenContractImpl = zeroAddress();
+    bnft.lifetimeMints = zeroBI();
+    bnft.lifetimeBurns = zeroBI();
+    bnft.lifetimeFlashLoans = zeroBI();
   }
   return bnft as BNFT;
 }

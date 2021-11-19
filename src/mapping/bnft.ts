@@ -11,11 +11,13 @@ export function handleInitialized(event: Initialized): void {}
 export function handleMint(event: Mint): void {
   let bnft = getOrInitBNFT(event.address);
 
-  bnft.lifetimeMints = bnft.lifetimeFlashLoans.plus(new BigInt(1));
+  bnft.lifetimeMints = bnft.lifetimeMints.plus(new BigInt(1));
   bnft.save();
 
   let ERC721Contract = IERC721Metadata.bind(event.address);
   let tokenItem = getOrInitTokenOwner(event.address, event.params.nftTokenId);
+  tokenItem.bnft = bnft.id;
+  tokenItem.nftAsset = event.params.nftAsset;
   tokenItem.owner = event.params.owner;
   tokenItem.tokenUri = ERC721Contract.tokenURI(event.params.nftTokenId);
   tokenItem.save();
@@ -33,10 +35,9 @@ export function handleMint(event: Mint): void {
 export function handleBurn(event: Burn): void {
   let bnft = getOrInitBNFT(event.address);
 
-  bnft.lifetimeBurns = bnft.lifetimeFlashLoans.plus(new BigInt(1));
+  bnft.lifetimeBurns = bnft.lifetimeBurns.plus(new BigInt(1));
   bnft.save();
 
-  let ERC721Contract = IERC721Metadata.bind(event.address);
   let tokenItem = getOrInitTokenOwner(event.address, event.params.nftTokenId);
   tokenItem.owner = zeroAddress();
   tokenItem.save();
