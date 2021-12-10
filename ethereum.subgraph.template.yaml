@@ -28,6 +28,8 @@ dataSources:
           file: ./abis/BNFTRegistry.json
         - name: IERC721Metadata
           file: ./constant-abis/IERC721Metadata.json
+        - name: ERC721
+          file: ./constant-abis/ERC721.json
       eventHandlers:
         - event: BNFTCreated(indexed address,address,address,uint256)
           handler: handleBNFTCreated
@@ -58,6 +60,8 @@ templates:
           file: ./abis/BNFT.json
         - name: IERC721Metadata
           file: ./constant-abis/IERC721Metadata.json
+        - name: ERC721
+          file: ./constant-abis/ERC721.json
       eventHandlers:
         - event: Burn(indexed address,indexed address,uint256,indexed address)
           handler: handleBurn

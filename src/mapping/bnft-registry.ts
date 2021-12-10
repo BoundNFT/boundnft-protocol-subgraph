@@ -1,7 +1,8 @@
+import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts";
 import { BNFTCreated, BNFTUpgraded } from "../../generated/BNFTRegistry/BNFTRegistry";
 
 import { BNFT as BNFTContract } from "../../generated/templates";
-import { IERC721Metadata } from "../../generated/BNFTRegistry/IERC721Metadata";
+import { ERC721 } from "../../generated/BNFTRegistry/ERC721";
 import { getOrInitBNFT } from "../helpers/initializers";
 
 export function handleBNFTCreated(event: BNFTCreated): void {
@@ -12,10 +13,16 @@ export function handleBNFTCreated(event: BNFTCreated): void {
   bnft.nftAsset = event.params.nftAsset;
   bnft.tokenContractImpl = event.params.bNftImpl;
 
-  let bNftContract = IERC721Metadata.bind(event.params.bNftProxy);
+  let bNftContract = ERC721.bind(event.params.bNftProxy);
 
-  bnft.name = bNftContract.name();
-  bnft.symbol = bNftContract.symbol();
+  let nameCallValue = bNftContract.try_name();
+  if (!nameCallValue.reverted) {
+    bnft.name = nameCallValue.value;
+  }
+  let symbolCallValue = bNftContract.try_symbol();
+  if (!symbolCallValue.reverted) {
+    bnft.symbol = symbolCallValue.value;
+  }
 
   bnft.save();
 }
@@ -25,10 +32,16 @@ export function handleBNFTUpgraded(event: BNFTUpgraded): void {
 
   bnft.tokenContractImpl = event.params.bNftImpl;
 
-  let bNftContract = IERC721Metadata.bind(event.params.bNftProxy);
+  let bNftContract = ERC721.bind(event.params.bNftProxy);
 
-  bnft.name = bNftContract.name();
-  bnft.symbol = bNftContract.symbol();
+  let nameCallValue = bNftContract.try_name();
+  if (!nameCallValue.reverted) {
+    bnft.name = nameCallValue.value;
+  }
+  let symbolCallValue = bNftContract.try_symbol();
+  if (!symbolCallValue.reverted) {
+    bnft.symbol = symbolCallValue.value;
+  }
 
   bnft.save();
 }

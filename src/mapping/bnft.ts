@@ -4,7 +4,7 @@ import { getOrInitBNFT, getOrInitTokenOwner } from "../helpers/initializers";
 import { zeroAddress, zeroBI } from "../utils/converters";
 import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts";
 import { EventTypeRef, getHistoryId } from "../utils/id-generation";
-import { IERC721Metadata } from "../../generated/templates/BNFT/IERC721Metadata";
+import { ERC721 } from "../../generated/templates/BNFT/ERC721";
 
 export function handleInitialized(event: Initialized): void {}
 
@@ -14,12 +14,15 @@ export function handleMint(event: Mint): void {
   bnft.lifetimeMints = bnft.lifetimeMints.plus(new BigInt(1));
   bnft.save();
 
-  let ERC721Contract = IERC721Metadata.bind(event.address);
+  let ERC721Contract = ERC721.bind(event.address);
   let tokenItem = getOrInitTokenOwner(event.address, event.params.nftTokenId);
   tokenItem.bnft = bnft.id;
   tokenItem.nftAsset = event.params.nftAsset;
   tokenItem.owner = event.params.owner;
-  tokenItem.tokenUri = ERC721Contract.tokenURI(event.params.nftTokenId);
+  let uriCallValue = ERC721Contract.try_tokenURI(event.params.nftTokenId);
+  if (!uriCallValue.reverted) {
+    tokenItem.tokenUri = uriCallValue.value;
+  }
   tokenItem.save();
 
   let mintHistory = new MintAction(getHistoryId(event, EventTypeRef.Mint));
