@@ -1,4 +1,27 @@
 # --------------------------------------
+# Registry Entities
+# --------------------------------------
+# service entity, when we receiving an event we should wknow which pool is it
+type ContractMapping @entity {
+  # contract address
+  id: ID!
+  registry: Registry!
+}
+
+type Registry @entity {
+  """
+  Registry address
+  """
+  id: ID!
+  bnftGenericImpl: Bytes!
+  symbolPrefix: String!
+  namePrefix: String!
+
+  totalBNFTs: BigInt!
+  bnfts: [BNFT!]! @derivedFrom(field: "registry")
+}
+
+# --------------------------------------
 # BNFT Entities
 # --------------------------------------
 type BNFT @entity {
@@ -6,32 +29,39 @@ type BNFT @entity {
   BNFT address
   """
   id: ID!
+  registry: Registry!
+
+  bnftProxy: Bytes!
+  bnftImpl: Bytes!
   symbol: String!
   name: String!
+
   nftAsset: Bytes!
-  tokenContractImpl: Bytes!
+  nftSymbol: String!
+  nftName: String!
 
   lifetimeMints: BigInt! # default: 0
   lifetimeBurns: BigInt! # default: 0
   lifetimeFlashLoans: BigInt! # default: 0
 
-  tokenOwners: [TokenOwner!]! @derivedFrom(field: "bnft")
+  totalTokens: BigInt!
+  tokenItems: [TokenItem!]! @derivedFrom(field: "bnft")
 
   mintHistory: [Mint!]! @derivedFrom(field: "bnft")
   burnHistory: [Burn!]! @derivedFrom(field: "bnft")
   flashLoanHistory: [FlashLoan!]! @derivedFrom(field: "bnft")
 }
 
-type TokenOwner @entity {
+type TokenItem @entity {
   """
   nft asset address + nft token id
   """
   id: ID!
+  registry: Registry!
   bnft: BNFT!
-  nftAsset: Bytes!
-  nftTokenId: BigInt!
-  owner: Bytes
-  tokenUri: String
+  tokenId: BigInt!
+  owner: Bytes!
+  tokenUri: String!
 }
 
 type Mint @entity {
@@ -39,6 +69,7 @@ type Mint @entity {
   tx hash
   """ # TODO: replace with blockNumber/timestamp + blockPosition
   id: ID!
+  registry: Registry!
   bnft: BNFT!
   nftAsset: Bytes!
   nftTokenId: BigInt!
@@ -52,6 +83,7 @@ type Burn @entity {
   tx hash
   """ # TODO: replace with blockNumber/timestamp + blockPosition
   id: ID!
+  registry: Registry!
   bnft: BNFT!
   nftAsset: Bytes!
   nftTokenId: BigInt!
@@ -65,6 +97,7 @@ type FlashLoan @entity {
   tx hash
   """ # TODO: replace with blockNumber/timestamp + blockPosition
   id: ID!
+  registry: Registry!
   bnft: BNFT!
   nftAsset: Bytes!
   nftTokenId: BigInt!
