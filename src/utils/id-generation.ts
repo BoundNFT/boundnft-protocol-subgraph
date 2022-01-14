@@ -17,14 +17,14 @@ export function getHistoryEntityId(event: ethereum.Event): string {
   return event.transaction.hash.toHexString() + ":" + event.logIndex.toString();
 }
 
-export function getBNftId(bNftAddress: Address): string {
-  return bNftAddress.toHexString();
+export function getRegistryId(registryAddress: Address): string {
+  return registryAddress.toHexString();
 }
 
-export function getNftAssetId(nftAsset: Address): string {
-  return nftAsset.toHexString();
+export function getBNftId(registryId: string, bnftAddress: Address): string {
+  return registryId + bnftAddress.toHexString();
 }
 
-export function getTokenOwnerId(nftAsset: Address, tokenId: BigInt): string {
-  return nftAsset.toHexString() + tokenId.toString();
+export function getTokenItemId(registryId: string, bnftId: string, tokenId: BigInt): string {
+  return registryId + bnftId + tokenId.toString();
 }

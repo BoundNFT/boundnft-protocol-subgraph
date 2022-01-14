@@ -31,6 +31,8 @@ dataSources:
         - name: ERC721
           file: ./constant-abis/ERC721.json
       eventHandlers:
+        - event: Initialized(address,string,string)
+          handler: handleInitialized
         - event: BNFTCreated(indexed address,address,address,uint256)
           handler: handleBNFTCreated
         - event: BNFTUpgraded(indexed address,address,address,uint256)
@@ -63,12 +65,12 @@ templates:
         - name: ERC721
           file: ./constant-abis/ERC721.json
       eventHandlers:
+        - event: Initialized(indexed address)
+          handler: handleInitialized
         - event: Burn(indexed address,indexed address,uint256,indexed address)
           handler: handleBurn
         - event: Mint(indexed address,indexed address,uint256,indexed address)
           handler: handleMint
         - event: FlashLoan(indexed address,indexed address,indexed address,uint256)
           handler: handleFlashLoan
-        - event: Initialized(indexed address,bytes)
-          handler: handleInitialized
       file: src/mapping/bnft.ts
