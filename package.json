@@ -1,7 +1,7 @@
 {
-  "name": "bend-subgraph",
+  "name": "boundnft-protocol-subgraph",
   "version": "1.0.0",
-  "description": "This package contains subgraph of the BNFT Protocol",
+  "description": "This package contains subgraph of the BoundNFT Protocol",
   "scripts": {
     "prettier:abis": "prettier --write 'constant-abis/**/*.json' 'abis/**/*.json'",
     "prettier:write": "prettier --write 'config/**/*.json' 'constant-abis/**/*.json' 'scripts/**/*.js' 'src/**/*.ts'",
@@ -24,9 +24,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/qlcchain/bnft-protocol-subgraph"
+    "url": "https://github.com/boundnft/boundnft-protocol-subgraph"
   },
-  "author": "BEND <dev@bendfinance.org>",
+  "author": "BEND <dev@boundnft.org>",
   "contributors": [],
   "license": "MIT",
   "dependencies": {
