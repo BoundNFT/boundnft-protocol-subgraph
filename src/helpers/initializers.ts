@@ -83,6 +83,7 @@ export function getOrInitTokenItem(registryId: string, bnftId: string, tokenId: 
     item.tokenId = tokenId;
     item.owner = zeroAddress();
     item.tokenUri = "";
+    item.minter = zeroAddress();
   }
   return item as TokenItem;
 }

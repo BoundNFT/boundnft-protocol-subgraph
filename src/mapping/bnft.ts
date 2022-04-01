@@ -21,6 +21,7 @@ export function handleMint(event: Mint): void {
   let tokenItem = getOrInitTokenItem(registryId, bnft.id, event.params.nftTokenId);
   tokenItem.bnft = bnft.id;
   tokenItem.owner = event.params.owner;
+  tokenItem.minter = event.params.user;
   let uriCallValue = ERC721Contract.try_tokenURI(event.params.nftTokenId);
   if (!uriCallValue.reverted) {
     tokenItem.tokenUri = uriCallValue.value;
@@ -49,6 +50,7 @@ export function handleBurn(event: Burn): void {
 
   let tokenItem = getOrInitTokenItem(registryId, bnft.id, event.params.nftTokenId);
   tokenItem.owner = zeroAddress();
+  tokenItem.minter = zeroAddress();
   tokenItem.save();
 
   let burnHistory = new BurnAction(getHistoryId(event, EventTypeRef.Burn));
