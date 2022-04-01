@@ -62,6 +62,7 @@ type TokenItem @entity {
   tokenId: BigInt!
   owner: Bytes!
   tokenUri: String!
+  minter: Bytes!
 }
 
 type Mint @entity {
