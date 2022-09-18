@@ -1,0 +1,5 @@
+{
+  "network": "goerli",
+  "BNFTRegistryAddress": "0x37A76Db446bDB3EF1b73112a8D5E6868de06464f",
+  "BNFTRegistryStartBlock": 7593888
+}
