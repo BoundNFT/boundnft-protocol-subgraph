@@ -30,8 +30,8 @@ To be able to deploy the subgraph in any environment for any network first we wi
 - The first time you will deploy the subgraph you need to first create it in the TheGraph node:
 
 ```
-// For Rinkeby:
-npm run subgraph:create:self-hosted:rinkeby
+// For Goerli:
+npm run subgraph:create:self-hosted:goerli
 
 // for Mainnet
 npm run subgraph:create:self-hosted:mainnet
@@ -46,8 +46,8 @@ npm run subgraph:codegen
 - When / If the subgraph is created you can then deploy
 
 ```
-// For Rinkeby:
-  npm run deploy:self-hosted:rinkeby
+// For Goerli:
+  npm run deploy:self-hosted:goerli
 
 // For Mainnet:
   npm run deploy:self-hosted:mainnet
@@ -58,8 +58,8 @@ npm run subgraph:codegen
 To be able to deploy to the hosted solution you will need to create a .env file and add `ACCESS_TOKEN` environment variable. You can find this in the dashboard of the TheGraph
 
 ```shell
-# For Rinkeby:
-npm run deploy:hosted:rinkeby
+# For Goerli:
+npm run deploy:hosted:goerli
 
 # For Mainnet:
 npm run deploy:hosted:mainnet
@@ -71,11 +71,7 @@ Remember that before runing `docker-compose up` you need to run `docker-compose 
 That is because the postgres database and ipfs data needs to not be persistant, so we need to delete the docker volumes.
 
 ```shell
-docker-compose down
-
-docker container prune -f
-
-docker volume prune -f
+docker-compose down; docker container prune -f; docker volume prune -f;
 
 # or using ls and rm
 # docker volume ls
@@ -87,8 +83,8 @@ docker volume prune -f
 # development using localhost hardhat node
 docker-compose up
 
-# or development using rinkeby
-export GRAPH_ETHEREUM="rinkeby:https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_KEY}"
+# or development using goerli
+export GRAPH_ETHEREUM="goerli:https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_KEY}"
 docker-compose up
 
 # or development using mainnet
@@ -108,8 +104,8 @@ npm run subgraph:create:local
 # development using dev config
 npm run deploy-stack:local
 
-# or development using rinkeby config
-npm run deploy-stack:local:rinkeby
+# or development using goerli config
+npm run deploy-stack:local:goerli
 
 # or development using mainnet config
 npm run deploy-stack:local:mainnet
