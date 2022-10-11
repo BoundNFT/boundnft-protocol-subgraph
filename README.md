@@ -74,13 +74,13 @@ Remember that before runing `docker-compose up` you need to run `docker-compose 
 npm run subgraph:create:local
 
 # development using dev config
-npm run deploy-stack:local
+npm run deploy:local
 
 # or development using goerli config
-npm run deploy-stack:local:goerli
+npm run deploy:local:goerli
 
 # or development using mainnet config
-npm run deploy-stack:local:mainnet
+npm run deploy:local:mainnet
 
 ```
 

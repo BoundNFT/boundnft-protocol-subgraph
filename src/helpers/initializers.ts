@@ -1,7 +1,7 @@
 import { Address, BigInt, Bytes, ethereum, log } from "@graphprotocol/graph-ts";
-import { ContractMapping, Registry, BNFT, TokenItem } from "../../generated/schema";
+import { ContractMapping, Registry, BNFT, TokenItem, FlashLoanApproveItem } from "../../generated/schema";
 import { zeroAddress, zeroBD, zeroBI } from "../utils/converters";
-import { getRegistryId, getBNftId, getTokenItemId } from "../utils/id-generation";
+import { getRegistryId, getBNftId, getTokenItemId, getFlashLoanApproveItemId } from "../utils/id-generation";
 
 export function getRegistryByEvent(event: ethereum.Event): string {
   let contractAddress = event.address.toHexString();
@@ -86,4 +86,23 @@ export function getOrInitTokenItem(registryId: string, bnftId: string, tokenId: 
     item.minter = zeroAddress();
   }
   return item as TokenItem;
+}
+
+export function getOrInitFlashLoanApproveItem(
+  registryId: string,
+  bnftId: string,
+  owner: Address,
+  operator: Address
+): FlashLoanApproveItem {
+  let itemId = getFlashLoanApproveItemId(registryId, bnftId, owner, operator);
+  let item = FlashLoanApproveItem.load(itemId);
+  if (!item) {
+    item = new FlashLoanApproveItem(itemId);
+    item.registry = registryId;
+    item.bnft = bnftId;
+    item.owner = owner;
+    item.operator = operator;
+    item.approved = false;
+  }
+  return item as FlashLoanApproveItem;
 }

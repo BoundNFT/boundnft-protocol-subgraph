@@ -6,6 +6,7 @@ export enum EventTypeRef {
   Mint,
   Burn,
   FlashLoan,
+  flashLoanApprove,
 }
 
 export function getHistoryId(event: ethereum.Event, type: EventTypeRef = EventTypeRef.NoType): string {
@@ -27,4 +28,13 @@ export function getBNftId(registryId: string, bnftAddress: Address): string {
 
 export function getTokenItemId(registryId: string, bnftId: string, tokenId: BigInt): string {
   return registryId + bnftId + tokenId.toString();
+}
+
+export function getFlashLoanApproveItemId(
+  registryId: string,
+  bnftId: string,
+  owner: Address,
+  operator: Address
+): string {
+  return registryId + bnftId + owner.toHexString() + operator.toHexString();
 }

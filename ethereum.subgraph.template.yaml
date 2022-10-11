@@ -73,4 +73,6 @@ templates:
           handler: handleMint
         - event: FlashLoan(indexed address,indexed address,indexed address,uint256)
           handler: handleFlashLoan
+        - event: FlashLoanApprovalForAll(indexed address,indexed address,bool)
+          handler: handleFlashLoanApprovalForAll
       file: src/mapping/bnft.ts

@@ -65,6 +65,18 @@ type TokenItem @entity {
   minter: Bytes!
 }
 
+type FlashLoanApproveItem @entity {
+  """
+  nft asset address + nft token id
+  """
+  id: ID!
+  registry: Registry!
+  bnft: BNFT!
+  owner: Bytes!
+  operator: Bytes!
+  approved: Boolean!
+}
+
 type Mint @entity {
   """
   tx hash
@@ -104,5 +116,18 @@ type FlashLoan @entity {
   nftTokenId: BigInt!
   target: Bytes!
   initiator: Bytes!
+  timestamp: Int!
+}
+
+type FlashLoanApproveAction @entity {
+  """
+  tx hash
+  """ # TODO: replace with blockNumber/timestamp + blockPosition
+  id: ID!
+  registry: Registry!
+  bnft: BNFT!
+  owner: Bytes!
+  operator: Bytes!
+  approved: Boolean!
   timestamp: Int!
 }

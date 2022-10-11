@@ -1,6 +1,16 @@
-import { Initialized, Mint, Burn, FlashLoan } from "../../generated/templates/BNFT/BNFT";
-import { Mint as MintAction, Burn as BurnAction, FlashLoan as FlashLoanAction } from "../../generated/schema";
-import { getOrInitBNFT, getOrInitTokenItem, getRegistryByEvent } from "../helpers/initializers";
+import { Initialized, Mint, Burn, FlashLoan, FlashLoanApprovalForAll } from "../../generated/templates/BNFT/BNFT";
+import {
+  Mint as MintAction,
+  Burn as BurnAction,
+  FlashLoan as FlashLoanAction,
+  FlashLoanApproveAction,
+} from "../../generated/schema";
+import {
+  getOrInitBNFT,
+  getOrInitFlashLoanApproveItem,
+  getOrInitTokenItem,
+  getRegistryByEvent,
+} from "../helpers/initializers";
 import { zeroAddress, zeroBI } from "../utils/converters";
 import { Address, BigInt, ethereum, log } from "@graphprotocol/graph-ts";
 import { EventTypeRef, getHistoryId } from "../utils/id-generation";
@@ -81,4 +91,25 @@ export function handleFlashLoan(event: FlashLoan): void {
   flashLoan.initiator = event.params.initiator;
   flashLoan.timestamp = event.block.timestamp.toI32();
   flashLoan.save();
+}
+
+export function handleFlashLoanApprovalForAll(event: FlashLoanApprovalForAll): void {
+  let registryId = getRegistryByEvent(event);
+
+  let bnft = getOrInitBNFT(registryId, event.address);
+
+  let approveItem = getOrInitFlashLoanApproveItem(registryId, bnft.id, event.params.owner, event.params.operator);
+  approveItem.owner = event.params.owner;
+  approveItem.operator = event.params.operator;
+  approveItem.approved = event.params.approved;
+  approveItem.save();
+
+  let approveAction = new FlashLoanApproveAction(getHistoryId(event, EventTypeRef.flashLoanApprove));
+  approveAction.registry = registryId;
+  approveAction.bnft = bnft.id;
+  approveAction.owner = event.params.owner;
+  approveAction.operator = event.params.operator;
+  approveAction.approved = event.params.approved;
+  approveAction.timestamp = event.block.timestamp.toI32();
+  approveAction.save();
 }
