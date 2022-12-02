@@ -1,6 +1,6 @@
 specVersion: 0.0.1
 description: Bend Protocol subgraph
-repository: https://github.com/bnft/bnft-protocol-subgraph
+repository: https://github.com/boundnft/boundnft-protocol-subgraph
 schema:
   file: ./schema.graphql
   # --------------------------------------
