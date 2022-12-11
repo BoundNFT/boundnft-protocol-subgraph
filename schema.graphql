@@ -24,6 +24,19 @@ type Registry @entity {
 # --------------------------------------
 # BNFT Entities
 # --------------------------------------
+type BNFTMinter @entity {
+  """
+  bnft id + minter address
+  """
+  id: ID!
+  registry: Registry!
+  bnft: BNFT!
+  minter: Bytes!
+
+  totalTokens: BigInt!
+  tokenItems: [TokenItem!]! @derivedFrom(field: "bnftMinter")
+}
+
 type BNFT @entity {
   """
   BNFT address
@@ -54,7 +67,7 @@ type BNFT @entity {
 
 type TokenItem @entity {
   """
-  nft asset address + nft token id
+  bnft id + nft token id
   """
   id: ID!
   registry: Registry!
@@ -63,6 +76,7 @@ type TokenItem @entity {
   owner: Bytes!
   tokenUri: String!
   minter: Bytes!
+  bnftMinter: BNFTMinter!
 }
 
 type Mint @entity {

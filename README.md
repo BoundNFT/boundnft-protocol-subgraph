@@ -57,10 +57,12 @@ docker-compose up
 
 # or development using goerli
 export GRAPH_ETHEREUM="goerli:https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_KEY}"
+
 docker-compose up
 
 # or development using mainnet
 export GRAPH_ETHEREUM="mainnet:https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}"
+
 docker-compose up
 
 ```

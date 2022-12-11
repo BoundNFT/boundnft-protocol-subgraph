@@ -1,7 +1,8 @@
 import { Address, BigInt, Bytes, ethereum, log } from "@graphprotocol/graph-ts";
-import { ContractMapping, Registry, BNFT, TokenItem } from "../../generated/schema";
+import { ContractMapping, Registry, BNFT, TokenItem, BNFTMinter } from "../../generated/schema";
+import { ZERO_ADDRESS } from "../utils/constants";
 import { zeroAddress, zeroBD, zeroBI } from "../utils/converters";
-import { getRegistryId, getBNftId, getTokenItemId } from "../utils/id-generation";
+import { getRegistryId, getBNftId, getTokenItemId, getBNFTMinterId } from "../utils/id-generation";
 
 export function getRegistryByEvent(event: ethereum.Event): string {
   let contractAddress = event.address.toHexString();
@@ -43,7 +44,7 @@ export function getOrInitRegistry(registryAddress: Address): Registry {
   let registry = Registry.load(registryId);
   if (!registry) {
     registry = new Registry(registryId);
-    registry.bnftGenericImpl = new Bytes(1);
+    registry.bnftGenericImpl = zeroAddress();
     registry.totalBNFTs = zeroBI();
   }
   return registry as Registry;
@@ -60,7 +61,7 @@ export function getOrInitBNFT(registryId: string, bnftAddress: Address): BNFT {
     bnft.bnftProxy = bnftAddress;
     bnft.bnftImpl = zeroAddress();
 
-    bnft.nftAsset = new Bytes(1);
+    bnft.nftAsset = zeroAddress();
     bnft.nftSymbol = "";
     bnft.nftName = "";
 
@@ -73,17 +74,31 @@ export function getOrInitBNFT(registryId: string, bnftAddress: Address): BNFT {
   return bnft as BNFT;
 }
 
-export function getOrInitTokenItem(registryId: string, bnftId: string, tokenId: BigInt): TokenItem {
-  let itemId = getTokenItemId(registryId, bnftId, tokenId);
+export function getOrInitTokenItem(bnftId: string, tokenId: BigInt): TokenItem {
+  let itemId = getTokenItemId(bnftId, tokenId);
   let item = TokenItem.load(itemId);
   if (!item) {
     item = new TokenItem(itemId);
-    item.registry = registryId;
-    item.bnft = "";
+    item.registry = ZERO_ADDRESS;
+    item.bnft = bnftId;
     item.tokenId = tokenId;
     item.owner = zeroAddress();
     item.tokenUri = "";
     item.minter = zeroAddress();
+    item.bnftMinter = ZERO_ADDRESS;
   }
   return item as TokenItem;
+}
+
+export function getOrInitBNFTMinter(bnftId: string, minterAddress: Address): BNFTMinter {
+  let minterId = getBNFTMinterId(bnftId, minterAddress);
+  let bnftMinter = BNFTMinter.load(minterId);
+  if (!bnftMinter) {
+    bnftMinter = new BNFTMinter(minterId);
+    bnftMinter.registry = ZERO_ADDRESS;
+    bnftMinter.bnft = bnftId;
+    bnftMinter.minter = minterAddress;
+    bnftMinter.totalTokens = zeroBI();
+  }
+  return bnftMinter as BNFTMinter;
 }
