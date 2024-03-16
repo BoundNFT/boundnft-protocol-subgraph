@@ -12,7 +12,7 @@ export function handleInitialized(event: Initialized): void {
   let bnft = getOrInitBNFT(registryId, event.address);
   bnft.save();
 
-  let zeroMinter = getOrInitBNFTMinter(bnft.id, zeroAddress() as Address);
+  let zeroMinter = getOrInitBNFTMinter(bnft.id, Address.fromBytes(zeroAddress()));
   zeroMinter.registry = registryId;
   zeroMinter.save();
 }
@@ -65,9 +65,9 @@ export function handleBurn(event: Burn): void {
 
   let tokenItem = getOrInitTokenItem(bnft.id, event.params.nftTokenId);
 
-  let zeroMinter = getOrInitBNFTMinter(bnft.id, zeroAddress() as Address);
+  let zeroMinter = getOrInitBNFTMinter(bnft.id, Address.fromBytes(zeroAddress()));
 
-  let bnftMinter = getOrInitBNFTMinter(bnft.id, tokenItem.minter as Address);
+  let bnftMinter = getOrInitBNFTMinter(bnft.id, Address.fromBytes(tokenItem.minter));
   bnftMinter.totalTokens = bnftMinter.totalTokens.minus(BigInt.fromI32(1));
   bnftMinter.save();
 

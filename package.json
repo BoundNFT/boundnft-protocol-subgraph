@@ -15,6 +15,7 @@
     "deploy-stack:local": "BLOCKCHAIN=ethereum NETWORK=dev env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
     "deploy-stack:local:goerli": "BLOCKCHAIN=ethereum NETWORK=goerli env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
     "deploy-stack:local:mainnet": "BLOCKCHAIN=ethereum NETWORK=mainnet env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
+    "deploy-stack:local:merlin-testnet": "BLOCKCHAIN=ethereum NETWORK=merlin-testnet env-cmd npm run prepare:subgraph && env-cmd npm run subgraph:deploy:local",
     "deploy:hosted:goerli": "BLOCKCHAIN=ethereum NETWORK=goerli env-cmd npm run prepare:subgraph && SLUG=bend/bnft-protocol-goerli env-cmd npm run subgraph:deploy:hosted",
     "deploy:hosted:mainnet": "BLOCKCHAIN=ethereum NETWORK=mainnet env-cmd npm run prepare:subgraph && SLUG=bend/bnft-protocol env-cmd npm run subgraph:deploy:hosted"
   },
@@ -26,8 +27,8 @@
   "contributors": [],
   "license": "MIT",
   "dependencies": {
-    "@graphprotocol/graph-cli": "^0.18.0",
-    "@graphprotocol/graph-ts": "^0.18.1",
+    "@graphprotocol/graph-cli": "^0.68.5",
+    "@graphprotocol/graph-ts": "^0.33.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "env-cmd": "^10.1.0",

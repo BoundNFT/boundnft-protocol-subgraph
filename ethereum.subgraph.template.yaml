@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.5
 description: Bend Protocol subgraph
 repository: https://github.com/boundnft/boundnft-protocol-subgraph
 schema:
@@ -19,7 +19,7 @@ dataSources:
       startBlock: {{BNFTRegistryStartBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.1
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - BNFT
@@ -52,7 +52,7 @@ templates:
       abi: BNFT
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.1
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - BNFT
