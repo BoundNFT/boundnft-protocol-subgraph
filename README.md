@@ -30,8 +30,8 @@ To be able to deploy the subgraph in any environment for any network first we wi
 To be able to deploy to the hosted solution you will need to create a .env file and add `ACCESS_TOKEN` environment variable. You can find this in the dashboard of the TheGraph
 
 ```shell
-# For Goerli:
-npm run deploy:hosted:goerli
+# For Sepolia:
+npm run deploy:hosted:sepolia
 
 # For Mainnet:
 npm run deploy:hosted:mainnet
@@ -55,13 +55,13 @@ docker-compose down; docker container prune -f; docker volume prune -f;
 # development using localhost hardhat node
 docker-compose up
 
-# or development using goerli
-export GRAPH_ETHEREUM="goerli:https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_KEY}"
+# or development using sepolia
+export GRAPH_ETHEREUM="sepolia:https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_KEY}"
 
 docker-compose up
 
 # or development using mainnet
-export GRAPH_ETHEREUM="mainnet:https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_KEY}"
+export GRAPH_ETHEREUM="mainnet:https://eth-mainnet.g.alchemy.com/v2/${ALCHEMY_KEY}"
 
 docker-compose up
 
@@ -78,8 +78,8 @@ npm run subgraph:create:local
 # development using dev config
 npm run deploy-stack:local
 
-# or development using goerli config
-npm run deploy-stack:local:goerli
+# or development using sepolia config
+npm run deploy-stack:local:sepolia
 
 # or development using mainnet config
 npm run deploy-stack:local:mainnet

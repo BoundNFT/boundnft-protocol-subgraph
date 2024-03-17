@@ -14,8 +14,10 @@
     "subgraph:deploy:hosted": "graph deploy $SLUG --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token $ACCESS_TOKEN",
     "deploy-stack:local": "BLOCKCHAIN=ethereum NETWORK=dev env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
     "deploy-stack:local:goerli": "BLOCKCHAIN=ethereum NETWORK=goerli env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
+    "deploy-stack:local:sepolia": "BLOCKCHAIN=ethereum NETWORK=sepolia env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
     "deploy-stack:local:mainnet": "BLOCKCHAIN=ethereum NETWORK=mainnet env-cmd npm run prepare:subgraph && npm run subgraph:deploy:local",
     "deploy:hosted:goerli": "BLOCKCHAIN=ethereum NETWORK=goerli env-cmd npm run prepare:subgraph && SLUG=bend/bnft-protocol-goerli env-cmd npm run subgraph:deploy:hosted",
+    "deploy:hosted:sepolia": "BLOCKCHAIN=ethereum NETWORK=sepolia env-cmd npm run prepare:subgraph && SLUG=bend/bnft-protocol-sepolia env-cmd npm run subgraph:deploy:hosted",
     "deploy:hosted:mainnet": "BLOCKCHAIN=ethereum NETWORK=mainnet env-cmd npm run prepare:subgraph && SLUG=bend/bnft-protocol env-cmd npm run subgraph:deploy:hosted"
   },
   "repository": {
